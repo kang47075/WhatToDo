@@ -4,8 +4,8 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import BookmarksScreen from '../screens/BookmarksScreen';
+import AccountScreen from '../screens/AccountScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const config = Platform.select({
@@ -19,6 +19,7 @@ const HomeStack = createStackNavigator(
   },
   config
 );
+
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
@@ -36,42 +37,42 @@ HomeStack.navigationOptions = {
 
 HomeStack.path = '';
 
-const LinksStack = createStackNavigator(
+const BookmarksStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    Bookmarks: BookmarksScreen,
   },
   config
 );
 
-LinksStack.navigationOptions = {
+BookmarksStack.navigationOptions = {
   tabBarLabel: 'Bookmarks',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-bookmark' : 'md-bookmark'} />
   ),
 };
 
-LinksStack.path = '';
+BookmarksStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const AccountStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Account: AccountScreen,
   },
   config
 );
 
-SettingsStack.navigationOptions = {
+AccountStack.navigationOptions = {
   tabBarLabel: 'Account',
   tabBarIcon: ({ focused }) => (
     <MaterialCommunityIcons focused={focused} name='account' size={29} color={focused ? '#4a94d5' : '#cbcbcb'} />
   ),
 };
 
-SettingsStack.path = '';
+AccountStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  LinksStack,
-  SettingsStack,
+  BookmarksStack,
+  AccountStack,
 });
 
 tabNavigator.path = '';
