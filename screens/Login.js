@@ -6,7 +6,7 @@ import * as firebase from "firebase";
 export default class Login extends React.Component {
   state = { email: "", password: "", errorMessage: null };
   handleLogin = () => {
-    const { email, pasword } = this.state;
+    const { email, password } = this.state;
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)

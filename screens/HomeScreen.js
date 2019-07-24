@@ -1,6 +1,8 @@
 import * as WebBrowser from "expo-web-browser";
 import { SearchBar } from "react-native-elements";
 import React from "react";
+import * as firebase from "firebase";
+
 import {
   Image,
   Platform,
@@ -8,80 +10,89 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Button
 } from "react-native";
 
 import { MonoText } from "../components/StyledText";
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={require("../assets/images/what2dob.jpg")}
-            style={styles.welcomeImage}
+export default class HomeScreen extends React.Component {
+  handlelogout = () => {
+    firebase.auth().signOut();
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
+          <Button onPress={this.handlelogout} title="logout" />
+
+          <View style={styles.welcomeContainer}>
+            <Image
+              source={require("../assets/images/what2dob.jpg")}
+              style={styles.welcomeImage}
+            />
+          </View>
+          <SearchBar
+            lightTheme
+            fontColor="#c6c6c6"
+            iconColor="#7a5ffa"
+            shadowColor="#2c2c2c"
+            cancelIconColor="#7a5ffa"
+            placeholder="Search here"
+            onChangeText={text => {
+              console.log(text);
+            }}
+            onPressCancel={() => {
+              this.filterList("");
+            }}
+            onPress={() => alert("onPress")}
           />
-        </View>
-        <SearchBar
-          lightTheme
-          fontColor="#c6c6c6"
-          iconColor="#7a5ffa"
-          shadowColor="#2c2c2c"
-          cancelIconColor="#7a5ffa"
-          placeholder="Search here"
-          onChangeText={text => {
-            console.log(text);
-          }}
-          onPressCancel={() => {
-            this.filterList("");
-          }}
-          onPress={() => alert("onPress")}
-        />
 
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
+          <View style={styles.getStartedContainer}>
+            <DevelopmentModeNotice />
 
-          <Text style={styles.getStartedText}>Get started by opening</Text>
+            <Text style={styles.getStartedText}>Get started by opening</Text>
 
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
-          >
-            <MonoText>screens/HomeScreen.js</MonoText>
+            <View
+              style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
+            >
+              <MonoText>screens/HomeScreen.js</MonoText>
+            </View>
+
+            <Text style={styles.getStartedText}>
+              Change this text and your app will automatically reload.
+            </Text>
           </View>
 
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
+          <View style={styles.helpContainer}>
+            <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
+              <Text style={styles.helpLinkText}>
+                Help, it didn’t automatically reload!
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+
+        <View style={styles.tabBarInfoContainer}>
+          <Text style={styles.tabBarInfoText}>
+            This is a tab bar. You can edit it in:
           </Text>
-        </View>
 
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}
-        >
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
+          <View
+            style={[styles.codeHighlightContainer, styles.navigationFilename]}
+          >
+            <MonoText style={styles.codeHighlightText}>
+              navigation/MainTabNavigator.js
+            </MonoText>
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 HomeScreen.navigationOptions = {

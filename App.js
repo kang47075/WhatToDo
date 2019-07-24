@@ -7,12 +7,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 import AppNavigator from "./navigation/AppNavigator";
 
-import { createSwitchNavigator, createAppContainer } from "react-navigation";
-// import the different screens
-import Loading from "./screens/Loading";
-import SignUp from "./screens/SignUp";
-import Login from "./screens/Login";
-import Main from "./screens/Main";
 import * as firebase from "firebase";
 
 const firebaseConfig = {
@@ -23,41 +17,26 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const App = createAppContainer(
-  createSwitchNavigator(
-    {
-      Loading,
-      SignUp,
-      Login,
-      Main
-    },
-    {
-      initialRouteName: "Loading"
-    }
-  )
-);
+export default function App(props) {
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-export default App;
-// export default function App(props) {
-//   const [isLoadingComplete, setLoadingComplete] = useState(false);
-
-//   if (!isLoadingComplete && !props.skipLoadingScreen) {
-//     return (
-//       <AppLoading
-//         startAsync={loadResourcesAsync}
-//         onError={handleLoadingError}
-//         onFinish={() => handleFinishLoading(setLoadingComplete)}
-//       />
-//     );
-//   } else {
-//     return (
-//       <View style={styles.container}>
-//         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-//         <AppNavigator />
-//       </View>
-//     );
-//   }
-// }
+  if (!isLoadingComplete && !props.skipLoadingScreen) {
+    return (
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={handleLoadingError}
+        onFinish={() => handleFinishLoading(setLoadingComplete)}
+      />
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+        <AppNavigator />
+      </View>
+    );
+  }
+}
 
 async function loadResourcesAsync() {
   await Promise.all([
