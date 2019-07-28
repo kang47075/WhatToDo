@@ -1,7 +1,7 @@
-import * as WebBrowser from "expo-web-browser";
 import { SearchBar } from "react-native-elements";
-import React from "react";
+import React, { Component } from "react";
 import * as firebase from "firebase";
+import { Font } from "expo";
 
 import {
   Image,
@@ -11,85 +11,101 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button
+  Button,
+  FlatList,
+  ActivityIndicator
 } from "react-native";
 
 import { MonoText } from "../components/StyledText";
+import { AppLoading } from "expo";
+
+export const CustomButton = props => {
+  const { title = "Enter", style = {}, textStyle = {}, onPress } = props;
+
+  return (
+    <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
+      <Text style={[styles.text, textStyle]}>{props.title}</Text>
+    </TouchableOpacity>
+  );
+};
 
 export default class HomeScreen extends React.Component {
+  state = {
+    categories: [],
+    loaded: false
+  };
+  componentDidMount() {
+    const currentUser = firebase.auth().currentUser.uid;
+    firebase
+      .database()
+      .ref(`Category`)
+      .on("value", snapshot => {
+        var categories = [];
+        snapshot.forEach(child => {
+          categories.push({
+            id: child.key,
+            icon: child.val().Icon
+          });
+        });
+        this.setState({ categories, loaded: true });
+      });
+  }
   handlelogout = () => {
     firebase.auth().signOut();
   };
-
+  renderItem = item => {
+    console.log(item);
+    return (
+      <View style={styles.gridItem}>
+        <Text style={styles.gridText}>{item.item.id}</Text>
+      </View>
+    );
+  };
   render() {
+    console.log(this.state.categories);
     return (
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <Button onPress={this.handlelogout} title="logout" />
-
           <View style={styles.welcomeContainer}>
             <Image
-              source={require("../assets/images/what2dob.jpg")}
+              source={require("../assets/images/what2domeme.png")}
               style={styles.welcomeImage}
             />
           </View>
           <SearchBar
-            lightTheme
-            fontColor="#c6c6c6"
-            iconColor="#7a5ffa"
-            shadowColor="#2c2c2c"
-            cancelIconColor="#7a5ffa"
-            placeholder="Search here"
+            inputStyle={{ backgroundColor: "white", fontSize: 15 }}
+            containerStyle={{
+              backgroundColor: "transparent",
+              borderBottomColor: "transparent",
+              borderTopColor: "transparent"
+            }}
+            placeholder="  Search here..."
             onChangeText={text => {
               console.log(text);
             }}
+            style={styles.search}
             onPressCancel={() => {
               this.filterList("");
             }}
             onPress={() => alert("onPress")}
           />
-
-          <View style={styles.getStartedContainer}>
-            <DevelopmentModeNotice />
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View
-              style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
-            >
-              <MonoText>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>
-                Help, it didn’t automatically reload!
-              </Text>
-            </TouchableOpacity>
+          <View style={styles.container2}>
+            {!this.state.loaded ? (
+              <ActivityIndicator size="large" color="blue" />
+            ) : (
+              <FlatList
+                style={styles.grid}
+                renderItem={this.renderItem}
+                numColumns={2}
+                data={this.state.categories}
+              />
+            )}
+            <CustomButton onPress={this.handlelogout} title="logout" />
           </View>
         </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>
-            This is a tab bar. You can edit it in:
-          </Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.navigationFilename]}
-          >
-            <MonoText style={styles.codeHighlightText}>
-              navigation/MainTabNavigator.js
-            </MonoText>
-          </View>
-        </View>
       </View>
     );
   }
@@ -121,7 +137,13 @@ function DevelopmentModeNotice() {
     );
   }
 }
+class App extends React.Component {
+  state = {
+    fontLoaded: false
+  };
 
+  // ...
+}
 function handleLearnMorePress() {
   WebBrowser.openBrowserAsync(
     "https://docs.expo.io/versions/latest/workflow/development-mode/"
@@ -137,7 +159,7 @@ function handleHelpPress() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#ff3950"
   },
   developmentModeText: {
     marginBottom: 20,
@@ -210,15 +232,33 @@ const styles = StyleSheet.create({
   navigationFilename: {
     marginTop: 5
   },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: "center"
+  grid: {
+    width: "100%",
+    alignSelf: "stretch"
   },
-  helpLink: {
-    paddingVertical: 15
+  gridItem: {
+    backgroundColor: "#ffffff",
+    padding: 20,
+    marginBottom: 30,
+    borderWidth: 0
   },
-  helpLinkText: {
-    fontSize: 14,
-    color: "#2e78b7"
+  button: {
+    display: "flex",
+    height: 30,
+    width: 300,
+    alignSelf: "center",
+    borderRadius: 4,
+    borderWidth: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    shadowColor: "#c7c7c7",
+    shadowOpacity: 0.4,
+    shadowOffset: { height: 10, width: 0 },
+    shadowRadius: 20
+  },
+  container2: {
+    backgroundColor: "white",
+    flex: 2
   }
 });

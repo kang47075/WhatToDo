@@ -1,6 +1,7 @@
 //https://medium.com/react-native-training/react-native-firebase-authentication-7652e1d2c8a2
 
 import React from "react";
+import { Font } from "expo";
 import { StyleSheet, Text, TextInput, View, Button } from "react-native";
 import * as firebase from "firebase";
 export default class Login extends React.Component {
