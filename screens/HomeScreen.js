@@ -2,6 +2,7 @@ import { SearchBar } from "react-native-elements";
 import React, { Component } from "react";
 import * as firebase from "firebase";
 import { Font } from "expo";
+import { StackActions } from "react-navigation";
 
 import {
   Image,
@@ -39,6 +40,7 @@ export default class HomeScreen extends React.Component {
     firebase
       .database()
       .ref(`Category`)
+      .orderByChild("Index")
       .on("value", snapshot => {
         var categories = [];
         snapshot.forEach(child => {
@@ -53,14 +55,28 @@ export default class HomeScreen extends React.Component {
   handlelogout = () => {
     firebase.auth().signOut();
   };
-  renderItem = item => {
+  renderItem = ({ item }) => {
     console.log(item);
     return (
-      <View style={styles.gridItem}>
-        <Text style={styles.gridText}>{item.item.id}</Text>
-      </View>
+      <TouchableOpacity
+        style={styles.gridItem}
+        onPress={() => this.onPressItem(item.id)}
+      >
+        <Image
+          source={{ uri: item.icon }}
+          style={styles.gridIcon}
+          resizeMode={"cover"}
+        />
+      </TouchableOpacity>
     );
   };
+  onPressItem = id => {
+    this.props.navigation.push("Details", {
+      id,
+      navigation: this.props.navigation
+    });
+  };
+
   render() {
     console.log(this.state.categories);
     return (
@@ -114,47 +130,6 @@ export default class HomeScreen extends React.Component {
 HomeScreen.navigationOptions = {
   header: null
 };
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
-}
-class App extends React.Component {
-  state = {
-    fontLoaded: false
-  };
-
-  // ...
-}
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    "https://docs.expo.io/versions/latest/workflow/development-mode/"
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    "https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes"
-  );
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -240,7 +215,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     padding: 20,
     marginBottom: 30,
-    borderWidth: 0
+    borderWidth: 0,
+    width: "50%"
+  },
+  gridIcon: {
+    width: "100%",
+    height: 100
   },
   button: {
     display: "flex",

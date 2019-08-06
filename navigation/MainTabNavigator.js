@@ -9,6 +9,7 @@ import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
 import BookmarksScreen from "../screens/BookmarksScreen";
 import AccountScreen from "../screens/AccountScreen";
+import DetailsScreen from "../screens/DetailsScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const config = Platform.select({
@@ -18,7 +19,8 @@ const config = Platform.select({
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen
+    Home: HomeScreen,
+    Details: DetailsScreen
   },
   config
 );
