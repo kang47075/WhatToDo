@@ -4,7 +4,6 @@ import * as Font from "expo-font";
 import React, { useState } from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
 import AppNavigator from "./navigation/AppNavigator";
 
 import * as firebase from "firebase";
@@ -49,12 +48,20 @@ async function loadResourcesAsync() {
       ...Ionicons.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
-      "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf")
+      "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
+      "Gotham-Bold": require("./assets/fonts/Gotham-Bold.ttf"),
+      "Gotham-BoldItalic": require("./assets/fonts/Gotham-BoldItalic.ttf"),
+      "Gotham-Book": require("./assets/fonts/Gotham-Book.ttf"),
+      "Gotham-BookItalic": require("./assets/fonts/Gotham-BookItalic.ttf"),
+      "Gotham-Light": require("./assets/fonts/Gotham-Light.ttf"),
+      "Gotham-LightItalic": require("./assets/fonts/Gotham-LightItalic.ttf"),
+      "Gotham-Medium": require("./assets/fonts/Gotham-Medium.ttf"),
+      "Gotham-MediumItalic": require("./assets/fonts/Gotham-MediumItalic.ttf")
     })
   ]);
 }
 
-function handleLoadingError(error: Error) {
+function handleLoadingError(error) {
   // In this case, you might want to report the error to your error reporting
   // service, for example Sentry
   console.warn(error);

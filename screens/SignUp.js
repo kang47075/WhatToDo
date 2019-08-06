@@ -101,6 +101,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
-    color: "white"
+    color: "white",
+    fontFamily: "Gotham-Medium",
+    textAlign: "center"
   }
 });
