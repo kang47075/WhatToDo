@@ -15,6 +15,24 @@ const firebaseConfig = {
   storageBucket: ""
 };
 
+setupStuff = () => {
+  firebase
+    .database()
+    .ref("Category/Arts and Culture/Items/---")
+    .set({
+      email,
+      fname,
+      lname
+    })
+    .then(data => {
+      //success callback
+      console.log("data ", data);
+    })
+    .catch(error => {
+      //error callback
+      console.log("error ", error);
+    });
+};
 firebase.initializeApp(firebaseConfig);
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -32,6 +50,7 @@ export default function App(props) {
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
         <AppNavigator />
+        {/* <Button onPress = {this.setupStuff} title="Admin button" ><Button/> */}
       </View>
     );
   }
