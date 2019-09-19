@@ -119,7 +119,7 @@ export default class HomeScreen extends React.Component {
                 data={this.state.categories}
               />
             )}
-            <CustomButton onPress={this.handlelogout} title="logout" />
+            <CustomButton onPress={this.handlelogout} title="Logout" />
           </View>
         </ScrollView>
       </View>
@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     padding: 20,
     marginBottom: 30,
+    marginTop: 20,
     borderWidth: 0,
     width: "50%"
   },
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
     width: 300,
     alignSelf: "center",
     borderRadius: 4,
-    borderWidth: 4,
+    borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
