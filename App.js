@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AppNavigator from "./navigation/AppNavigator";
+import { Button, TouchableOpacity, Text } from "react-native";
 
 import * as firebase from "firebase";
 
@@ -18,11 +19,11 @@ const firebaseConfig = {
 setupStuff = () => {
   firebase
     .database()
-    .ref("Category/Arts and Culture/Items/---")
-    .set({
-      email,
-      fname,
-      lname
+    .ref("Category/Arts and Culture/Items/Singapore Art Museum")
+    .update({
+      Cost: "$20",
+      Location: "8 Queen St",
+      Rating: 5
     })
     .then(data => {
       //success callback
@@ -50,7 +51,9 @@ export default function App(props) {
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
         <AppNavigator />
-        {/* <Button onPress = {this.setupStuff} title="Admin button" ><Button/> */}
+        {/* <TouchableOpacity onPress={this.setupStuff} style={styles.Button}>
+          <Text>Admin Button</Text>
+        </TouchableOpacity> */}
       </View>
     );
   }
@@ -94,5 +97,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff"
+  },
+  Button: {
+    flex: 2,
+    marginTop: 200,
+    padding: 40
   }
 });

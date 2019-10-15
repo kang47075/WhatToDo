@@ -19,6 +19,7 @@ import {
 
 import { MonoText } from "../components/StyledText";
 import { AppLoading } from "expo";
+import { whileStatement } from "@babel/types";
 
 export const CustomButton = props => {
   const { title = "Enter", style = {}, textStyle = {}, onPress } = props;
@@ -119,7 +120,10 @@ export default class HomeScreen extends React.Component {
                 data={this.state.categories}
               />
             )}
-            <CustomButton onPress={this.handlelogout} title="Logout" />
+            <CustomButton
+              onPress={this.handlelogout}
+              title="Login"
+            ></CustomButton>
           </View>
         </ScrollView>
       </View>
@@ -232,11 +236,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "#2b3039",
     shadowColor: "#c7c7c7",
     shadowOpacity: 0.4,
     shadowOffset: { height: 10, width: 0 },
     shadowRadius: 20
+  },
+  customButton: {
+    color: "white",
+    fontSize: 12
   },
   container2: {
     backgroundColor: "white",
