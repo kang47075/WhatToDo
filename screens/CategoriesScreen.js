@@ -53,7 +53,7 @@ export default class CategoriesScreen extends React.Component {
     return (
       <TouchableOpacity
         style={styles.item}
-        onPress={() => this.onPressItem(item.id)}
+        onPress={() => this.onPressItem(item)}
       >
         <Text>{item.id}</Text>
         <Text>{item.cost}</Text>
@@ -67,9 +67,10 @@ export default class CategoriesScreen extends React.Component {
       </TouchableOpacity>
     );
   };
-  onPressItem = id => {
+  onPressItem = item => {
     this.props.navigation.push("Details", {
-      id,
+      item,
+      id: item.id,
       navigation: this.props.navigation
     });
   };
