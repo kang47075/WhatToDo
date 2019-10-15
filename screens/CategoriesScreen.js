@@ -71,6 +71,7 @@ export default class CategoriesScreen extends React.Component {
     this.props.navigation.push("Details", {
       item,
       id: item.id,
+      category: this.props.navigation.getParam("id"),
       navigation: this.props.navigation
     });
   };
