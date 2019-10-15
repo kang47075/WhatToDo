@@ -72,7 +72,7 @@ export default class HomeScreen extends React.Component {
     );
   };
   onPressItem = id => {
-    this.props.navigation.push("Details", {
+    this.props.navigation.push("Categories", {
       id,
       navigation: this.props.navigation
     });

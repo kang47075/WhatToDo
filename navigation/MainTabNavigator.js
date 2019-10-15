@@ -11,6 +11,7 @@ import BookmarksScreen from "../screens/BookmarksScreen";
 import AccountScreen from "../screens/AccountScreen";
 import DetailsScreen from "../screens/DetailsScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import CategoriesScreen from "../screens/CategoriesScreen";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -20,7 +21,8 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Details: DetailsScreen
+    Details: DetailsScreen,
+    Categories: CategoriesScreen
   },
   config
 );
